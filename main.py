@@ -1,12 +1,13 @@
 import asyncio
 import logging
-
+import os
+from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
-
-from config import TOKEN
 from app.handlers import router
 
-bot = Bot(token=TOKEN)
+load_dotenv()
+
+bot = Bot(os.environ.get("TOKEN"))
 dp = Dispatcher()
 
 
@@ -21,4 +22,4 @@ if __name__ == '__main__':
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print('Exit')
+        print('Бот выключен!')
