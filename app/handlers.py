@@ -44,3 +44,8 @@ async def categories(callback: CallbackQuery):
 async def categories(callback: CallbackQuery):
     await callback.answer('')
     await callback.message.answer('ЗАВЕДЕНИЕ ТОЛЬКО ДЛЯ ВЗРОСЛЫХ С БЛЕК_ДЖЕКОМ И ШЛ....!', reply_markup=keyboards.return_or_admin)
+
+@router.callback_query(F.data == 'bron_number')
+async def categories(callback: CallbackQuery):
+    await callback.answer('')
+    await callback.message.answer('Телефон для бронирования столиков +78452252268', reply_markup=keyboards.return_or_admin)

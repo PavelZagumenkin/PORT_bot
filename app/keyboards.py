@@ -3,9 +3,10 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 
 main_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='📆 Анонс мероприятий', web_app=WebAppInfo(url='https://portfood.ru'))],
-    [InlineKeyboardButton(text='🧾 Бронирование столика', web_app=WebAppInfo(url='https://portfood.ru'))],
+    [InlineKeyboardButton(text='🧾 Бронирование столика', callback_data='bron_number')],
     [InlineKeyboardButton(text='📋 Посмотреть меню', callback_data='categories')],
     [InlineKeyboardButton(text='🎁 Программа лояльности', web_app=WebAppInfo(url='https://portfood.ru/loyalty'))],
+    [InlineKeyboardButton(text='📍 Как нас найти!', url='https://yandex.ru/maps/?um=constructor%3Ad9aa4631eaa489c014f2320d7709dfa34cb05016f6510fe33bfc0be46e0142ee&source=constructorLink')],
     [InlineKeyboardButton(text='⭐ Оставить отзыв', web_app=WebAppInfo(url='https://portfood.ru'))],
     [InlineKeyboardButton(text='❓ Часто задаваемые вопросы', callback_data='questions')],
     [InlineKeyboardButton(text='🧑‍💼 Связать с администратором', web_app=WebAppInfo(url='https://portfood.ru'))],
@@ -32,5 +33,5 @@ questions = InlineKeyboardMarkup(inline_keyboard=[
 
 return_or_admin = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🧑‍💼 Связать с администратором', web_app=WebAppInfo(url='https://portfood.ru'))],
-    [InlineKeyboardButton(text='🔙 К вопросам', callback_data='questions')]
+    [InlineKeyboardButton(text='🔙 Главное меню', callback_data='start')]
 ])
