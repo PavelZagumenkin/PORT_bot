@@ -8,6 +8,7 @@ main_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='📍 Как нас найти!', url='https://yandex.ru/maps/?um=constructor%3Ad9aa4631eaa489c014f2320d7709dfa34cb05016f6510fe33bfc0be46e0142ee&source=constructorLink')],
     [InlineKeyboardButton(text='⭐ Оставить отзыв', web_app=WebAppInfo(url='https://portfood.ru'))],
     [InlineKeyboardButton(text='❓ Часто задаваемые вопросы', callback_data='questions')],
+    [InlineKeyboardButton(text='🪪 Получать персональные\nпредложения', callback_data='personal_broadcast_form')],
     [InlineKeyboardButton(text='🧑‍💼 Связать с администратором', web_app=WebAppInfo(url='https://portfood.ru'))]
 ])
 
@@ -39,4 +40,15 @@ admin_main_menu = InlineKeyboardMarkup(inline_keyboard=[
 
 return_admin_main_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_admin_main_menu')]
+])
+
+personal_broadcast_form = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Начать', callback_data='personal_broadcast_form_start')],
+    [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_main_menu')]
+])
+
+personal_broadcast_form_sex = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='🚹 Мужчина', callback_data='personal_broadcast_form_start')],
+    [InlineKeyboardButton(text='🚺 Женщина', callback_data='personal_broadcast_form_start')],
+    [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_main_menu')]
 ])

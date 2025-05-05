@@ -10,7 +10,7 @@ from database.database import SessionLocal, User, Broadcast
 router = Router()
 
 class BroadcastState(StatesGroup):
-    waiting_for_broadcast_text = State()
+    waiting_for_broadcast_content = State()
 
 @router.message(CommandStart())
 async def start(message: Message):
@@ -97,25 +97,74 @@ async def process_settings(callback: CallbackQuery):
 @router.callback_query(F.data == 'broadcast')
 async def process_broadcast(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text("Введите сообщение для рассылки:", reply_markup=keyboards.return_admin_main_menu)
-    await state.set_state(BroadcastState.waiting_for_broadcast_text)
+    await state.set_state(BroadcastState.waiting_for_broadcast_content)
     await callback.answer()
 
-@router.message(BroadcastState.waiting_for_broadcast_text)
-async def handle_broadcast_text(message: Message, state: FSMContext, bot: Bot):
-    broadcast_text = message.text
+@router.message(BroadcastState.waiting_for_broadcast_content)
+async def handle_broadcast_content(message: Message, state: FSMContext, bot: Bot):
+
     db = SessionLocal()
+
+    content_type = 'text'
+    file_id = None
+    caption = None
+
+    # Обработка фото с подписью
+    if message.photo:
+        content_type = 'photo'
+        photo = message.photo[-1]
+        file_id = photo.file_id
+        caption = message.caption or ""
+        broadcast_text = caption
+
+    # Обработка текстового сообщения
+    elif message.text:
+        broadcast_text = message.text
+
+    # Невалидный контент
+    else:
+        await message.answer("Отправьте текст или фото с подписью.")
+        db.close()
+        return
+
+    # Рассылка сообщений
     users_list = db.query(User).filter(User.active == True).all()
     count = 0
     for user in users_list:
         try:
-            await bot.send_message(user.telegram_id, broadcast_text)
+            if content_type == 'photo':
+                await bot.send_photo(
+                    chat_id=user.telegram_id,
+                    photo=file_id,
+                    caption=caption
+                )
+            else:
+                await bot.send_message(
+                    chat_id=user.telegram_id,
+                    text=broadcast_text
+                )
             count += 1
         except Exception as e:
-            print(f"Ошибка отправки рассылки пользователю с ID {user.telegram_id}: {e}")
+            print(f"Ошибка отправки пользователю {user.telegram_id}: {e}")
 
-    new_broadcast = Broadcast(message=broadcast_text)
+    # Сохранение в базу данных
+    new_broadcast = Broadcast(
+        content_type=content_type,
+        message_text=broadcast_text,
+        file_id=file_id
+    )
     db.add(new_broadcast)
     db.commit()
     db.close()
     await message.answer(f"Рассылка завершена! Сообщение отправлено {count} пользователям.")
     await state.clear()
+
+@router.callback_query(F.data == 'personal_broadcast_form')
+async def categories(callback: CallbackQuery):
+    await callback.message.answer('Заполните небольшую анкету', reply_markup=keyboards.personal_broadcast_form)
+    await callback.answer()
+
+@router.callback_query(F.data == 'personal_broadcast_form_start')
+async def categories(callback: CallbackQuery):
+    await callback.message.answer('Выберите ваш пол:', reply_markup=keyboards.personal_broadcast_form_sex)
+    await callback.answer()
