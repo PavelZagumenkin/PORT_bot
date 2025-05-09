@@ -8,7 +8,7 @@ main_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='📍 Как нас найти!', url='https://yandex.ru/maps/?um=constructor%3Ad9aa4631eaa489c014f2320d7709dfa34cb05016f6510fe33bfc0be46e0142ee&source=constructorLink')],
     [InlineKeyboardButton(text='⭐ Оставить отзыв', callback_data='leave_review')],
     [InlineKeyboardButton(text='❓ Часто задаваемые вопросы', callback_data='questions')],
-    [InlineKeyboardButton(text='🪪 Получать персональные\nпредложения', callback_data='personal_broadcast_form')],
+    [InlineKeyboardButton(text='🪪 Персональные\nпредложения', callback_data='personal_broadcast_form')],
     [InlineKeyboardButton(text='🧑‍💼 Связать с администратором', callback_data='call_admin')]
 ])
 
@@ -41,10 +41,16 @@ admin_main_menu = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 return_admin_main_menu = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='🔙 Назад', callback_data='return_admin_main_menu')]
+    [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_admin_main_menu')]
 ])
 
 personal_broadcast_form = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Начать', callback_data='personal_broadcast_form_start')],
+    [InlineKeyboardButton(text='Что это?', callback_data='personal_broadcast_faq')],
+    [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_main_menu')]
+])
+
+personal_broadcast_form_posle_faq = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Начать', callback_data='personal_broadcast_form_start')],
     [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_main_menu')]
 ])
@@ -57,6 +63,13 @@ sex_form = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='♂️ Мужчина', callback_data='pd_sex_male')],
         [InlineKeyboardButton(text='♀️ Женщина', callback_data='pd_sex_female')],
         [InlineKeyboardButton(text='🔙 Завершить', callback_data='pd_finish')]
+    ])
+
+sex_personal_broadcast = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text='♂️ Мужчинам', callback_data='pb_sex_male')],
+        [InlineKeyboardButton(text='♀️ Женщинам', callback_data='pb_sex_female')],
+        [InlineKeyboardButton(text='💯 Для всех', callback_data='pb_sex_all')],
+        [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_admin_main_menu')]
     ])
 
 kb_enter_date_admin = InlineKeyboardMarkup(inline_keyboard=[
@@ -96,6 +109,7 @@ def reply_keyboard(user_id):
 personal_broadcast_yes = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Изменить данные', callback_data='personal_broadcast_form_start')],
     [InlineKeyboardButton(text='Отписаться', callback_data='unsubscribe_personal_broadcast')],
+    [InlineKeyboardButton(text='Что это?', callback_data='personal_broadcast_faq')],
     [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_main_menu')]
 ])
 

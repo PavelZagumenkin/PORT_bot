@@ -3,7 +3,7 @@ from sqlalchemy import (
     ForeignKey, Date
 )
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker
 import datetime
 from config import DATABASE_URL
 
@@ -30,19 +30,17 @@ class Broadcast(Base):
     file_id      = Column(String, nullable=True)
     sent_at      = Column(DateTime, default=datetime.datetime.now)
 
-class PersonalBroadcast(Base):
-    __tablename__ = 'personal_broadcasts'
-    id           = Column(Integer, primary_key=True, index=True)
-    user_id      = Column(Integer, ForeignKey('users.id'), nullable=False)
-    template_id  = Column(Integer, ForeignKey('personal_templates.id'), nullable=False)
-    sent_at      = Column(DateTime, default=datetime.datetime.now)
-
 class PersonalTemplate(Base):
-    __tablename__ = 'personal_templates'
-    id            = Column(Integer, primary_key=True, index=True)
-    name          = Column(String, unique=True, nullable=False)
-    message_text  = Column(String, nullable=False)
-    days_before   = Column(Integer, default=0)
+    __tablename__  = 'personal_templates'
+    id             = Column(Integer, primary_key=True, index=True)
+    name           = Column(String, unique=True, nullable=False)
+    content_type   = Column(String, nullable=True)
+    message_text   = Column(String, nullable=False)
+    file_id        = Column(String, nullable=True)
+    when_broadcast = Column(String, nullable=True)
+    date_event     = Column(DateTime, nullable=True)
+    days_before    = Column(Integer, default=0)
+    for_sex        = Column(String, nullable=True)
 
 class AdminSchedule(Base):
     __tablename__ = 'admin_schedule'
@@ -53,13 +51,13 @@ class AdminSchedule(Base):
 
 class Review(Base):
     __tablename__ = 'reviews'
-    id         = Column(Integer, primary_key=True, index=True)
-    user_id    = Column(Integer, ForeignKey('users.id'), nullable=False)
-    name       = Column(String, nullable=True)
-    rating     = Column(Integer, nullable=False)
-    text       = Column(String, nullable=True)
-    photo_file = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.now)
+    id           = Column(Integer, primary_key=True, index=True)
+    user_id      = Column(Integer, ForeignKey('users.id'), nullable=False)
+    name         = Column(String, nullable=True)
+    rating       = Column(Integer, nullable=False)
+    message_text = Column(String, nullable=True)
+    file_id      = Column(String, nullable=True)
+    created_at   = Column(DateTime, default=datetime.datetime.now)
 
 class ActiveSupportChat(Base):
     __tablename__ = "active_support_chats"
