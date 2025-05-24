@@ -38,7 +38,7 @@ class PersonalTemplate(Base):
     message_text   = Column(String, nullable=False)
     file_id        = Column(String, nullable=True)
     when_broadcast = Column(String, nullable=True)
-    date_event     = Column(DateTime, nullable=True)
+    date_event     = Column(String, nullable=True)
     days_before    = Column(Integer, default=0)
     for_sex        = Column(String, nullable=True)
 
