@@ -42,13 +42,6 @@ class PersonalTemplate(Base):
     days_before    = Column(Integer, default=0)
     for_sex        = Column(String, nullable=True)
 
-class AdminSchedule(Base):
-    __tablename__ = 'admin_schedule'
-    id       = Column(Integer, primary_key=True, index=True)
-    user_id  = Column(Integer, ForeignKey('users.id'), nullable=False)
-    name     = Column(String, nullable=True)
-    date     = Column(Date, nullable=False)
-
 class Review(Base):
     __tablename__ = 'reviews'
     id           = Column(Integer, primary_key=True, index=True)
@@ -58,11 +51,5 @@ class Review(Base):
     message_text = Column(String, nullable=True)
     file_id      = Column(String, nullable=True)
     created_at   = Column(DateTime, default=datetime.datetime.now)
-
-class ActiveSupportChat(Base):
-    __tablename__ = "active_support_chats"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, unique=True)
-    admin_id = Column(Integer)
 
 Base.metadata.create_all(bind=engine)

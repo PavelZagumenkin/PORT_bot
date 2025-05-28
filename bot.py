@@ -7,12 +7,10 @@ from handlers.main_handlers import router
 from handlers.main_handlers import check_personal_broadcasts
 from config import BOT_TOKEN
 
-
 bot = Bot(BOT_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 dp.include_router(router)
-
 
 async def main():
     try:
@@ -31,7 +29,6 @@ async def main():
     finally:
         scheduler.shutdown(wait=False)
         await bot.session.close()
-
 
 
 if __name__ == '__main__':

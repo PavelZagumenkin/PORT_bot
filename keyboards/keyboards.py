@@ -1,14 +1,14 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 
 main_menu = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='📆 Анонс мероприятий', callback_data='anons_broadcast')],
+    # [InlineKeyboardButton(text='📆 Анонс мероприятий', callback_data='anons_broadcast')],
     [InlineKeyboardButton(text='🧾 Бронирование столика', callback_data='bron_number')],
     [InlineKeyboardButton(text='📋 Посмотреть меню', callback_data='categories')],
     [InlineKeyboardButton(text='🎁 Программа лояльности', web_app=WebAppInfo(url='https://portfood.ru/loyalty'))],
     [InlineKeyboardButton(text='📍 Как нас найти!', url='https://yandex.ru/maps/?um=constructor%3Ad9aa4631eaa489c014f2320d7709dfa34cb05016f6510fe33bfc0be46e0142ee&source=constructorLink')],
     [InlineKeyboardButton(text='✨ Отзывы', callback_data='leave_review')],
     [InlineKeyboardButton(text='❓ Часто задаваемые вопросы', callback_data='questions')],
-    [InlineKeyboardButton(text='🪪 Персональные\nпредложения', callback_data='personal_broadcast_form')],
+    [InlineKeyboardButton(text='🪪 Получать персональные\nпредложения', callback_data='personal_broadcast_form')],
     [InlineKeyboardButton(text='🧑‍💼 Связать с администратором', callback_data='call_admin')]
 ])
 
@@ -35,7 +35,6 @@ admin_main_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='📢 Рассылка', callback_data='broadcast')],
     [InlineKeyboardButton(text='🔔 Персональные рассылки', callback_data='personal_templates')],
     [InlineKeyboardButton(text='📈 Статистика', callback_data='stats')],
-    [InlineKeyboardButton(text='🗓️ Расписание администраторов', callback_data='schedule_admins')],
     [InlineKeyboardButton(text='📝 Отзывы', callback_data='manage_reviews')],
     [InlineKeyboardButton(text='⚙️ Настройки', callback_data='settings')]
 ])
@@ -72,22 +71,6 @@ sex_personal_broadcast = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_admin_main_menu')]
     ])
 
-kb_enter_date_admin = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text='🗓️ Выбрать дату', callback_data='admin_schedule_date')],
-        [InlineKeyboardButton(text='🔙 Назад', callback_data='return_admin_main_menu')]
-    ])
-
-
-kb_add_admin = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text='➕ Добавить администратора', callback_data='choose_admin')],
-        [InlineKeyboardButton(text='🔙 Назад', callback_data='return_admin_main_menu')]
-    ])
-
-enter_contact = ReplyKeyboardMarkup(
-        keyboard=[[KeyboardButton(text="🗃️ Отправить свой контакт", request_contact=True)]],
-        resize_keyboard=True,
-        one_time_keyboard=True
-    )
 
 # для отзывов (оценка)
 def review_keyboard():
@@ -95,17 +78,6 @@ def review_keyboard():
     buttons_line2 = [InlineKeyboardButton(text=str(i * '⭐'), callback_data=f'review_{i}') for i in range(4, 6)]
     return InlineKeyboardMarkup(inline_keyboard=[buttons_line1, buttons_line2])
 
-# Клавиатура завершения чата
-def end_chat_keyboard():
-    return InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(text='Завершить диалог', callback_data='end_chat')
-    ]])
-
-# Клавиатура ответа админу
-def reply_keyboard(user_id):
-    return InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(text="Ответить", callback_data=f"reply_to_{user_id}")
-    ]])
 
 # Удаления отзыва из админ-панели
 def delete_reviews(review_ID):
@@ -113,6 +85,7 @@ def delete_reviews(review_ID):
             [InlineKeyboardButton(text='🗑 Удалить', callback_data=f'del_review_{review_ID}')],
             [InlineKeyboardButton(text='🔙 Главное меню', callback_data='return_admin_main_menu')]
         ])
+
 
 personal_broadcast_yes = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Изменить данные', callback_data='personal_broadcast_form_start')],
