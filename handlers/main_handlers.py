@@ -902,7 +902,8 @@ async def process_template_content(message: Message, state: FSMContext, bot: Bot
         content_type = 'text'
         message_text = message.text
     else:
-        await message.answer("Пожалуйста, отправьте текст или фото.")
+        await message.answer("Пожалуйста, отправьте текст или фото.",
+                         reply_markup=keyboards.return_admin_main_menu)
         return
 
     await state.update_data(
@@ -926,12 +927,14 @@ async def process_personal_broadcast_when(callback: CallbackQuery, state: FSMCon
     await callback.message.delete()
     if 'date' in callback.data:
         when = 'date'
-        await callback.message.answer('Введите дату события к которому планируется рассылка в формате DD.MM.YYYY:')
+        await callback.message.answer('Введите дату события к которому планируется рассылка в формате DD.MM.YYYY:',
+                         reply_markup=keyboards.return_admin_main_menu)
         await state.set_state(TemplateState.waiting_for_date)
     else:
         when = 'birthday'
         await state.update_data(date_event=None)
-        await callback.message.answer('Введите, за сколько дней до события делать рассылку:', reply_markup=keyboards.admin_main_menu)
+        await callback.message.answer('Введите, за сколько дней до события делать рассылку:',
+                         reply_markup=keyboards.return_admin_main_menu)
         await state.set_state(TemplateState.waiting_for_count_days)
     await state.update_data(when_broadcast=when)
     await callback.answer()
@@ -953,11 +956,13 @@ async def process_event_date(message: Message, state: FSMContext, bot: Bot):
         selected_date = datetime.strptime(message.text, "%d.%m.%Y").date()
         date_event = selected_date.strftime("%d.%m")  # Формат DD.MM
     except ValueError:
-        await message.answer("Неверный формат даты. Используйте DD.MM.YYYY.", reply_markup=keyboards.admin_main_menu)
+        await message.answer("Неверный формат даты. Используйте DD.MM.YYYY.",
+                         reply_markup=keyboards.return_admin_main_menu)
         return
 
     await state.update_data(date_event=date_event)
-    await message.answer("Введите, за сколько дней до события делать рассылку:")
+    await message.answer("Введите, за сколько дней до события делать рассылку:",
+                         reply_markup=keyboards.return_admin_main_menu)
     await state.set_state(TemplateState.waiting_for_count_days)
 
 
@@ -975,7 +980,8 @@ async def process_count_days(message: Message, state: FSMContext, bot: Bot):
     try:
         count_days = int(message.text)
     except ValueError:
-        await message.answer('Введите целое число и попробуйте снова.', reply_markup=keyboards.admin_main_menu)
+        await message.answer('Введите целое число и попробуйте снова.',
+                         reply_markup=keyboards.return_admin_main_menu)
         return
     await state.update_data(days_before=count_days)
     await message.answer('Для кого выполнять рассылку?', reply_markup=keyboards.sex_personal_broadcast)
